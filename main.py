@@ -9,6 +9,7 @@ from machine import Pin, PWM, freq
 import utime
 import neopixel
 import json
+import os
 
 # Overlock pico to max cpu freq
 # freq(180000000)
