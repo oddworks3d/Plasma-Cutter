@@ -9,6 +9,7 @@ from machine import Pin, PWM, freq
 import utime
 import neopixel
 import json
+import os
 
 # Overlock pico to max cpu freq
 # freq(180000000)
@@ -640,16 +641,7 @@ class Firing(State):
             for light in frontLights:
                 frontLights[light].setBrightness(sm.normalBrightness)
                 frontLights[light].setColor(config['colors']['normal'])
-            if buttons['trigger2'].getState():
-                if sm.ammo <= 0:
-                    sm.changeState(Closing())
-                else:
-                    if not sm.barrelOpen:
-                        sm.changeState(Opening())
-                    else:
-                        sm.changeState(Closing())
-            else:
-                sm.changeState(Main())
+            sm.changeState(Main())
 
     def exit(self, sm):
         sm.ammo -= 1
@@ -770,6 +762,15 @@ class StateMachine:
             frontLights[light].update()
         self.checkAmmo()
         ammoCountLight.update()
+
+        if buttons['trigger1'].getHeld() and buttons['trigger2'].getState():
+            if self.ammo <= 0:
+                self.changeState(Closing())
+            else:
+                if not self.barrelOpen:
+                    self.changeState(Opening())
+                else:
+                    self.changeState(Closing())
 
     def checkAmmo(self):
         if int(self.ammo) == 6:
