@@ -587,7 +587,7 @@ barrelRotation.setPos(38, True)
 barrelRotation.update()
 barrel.update()
 
-barrel.setPos(50, True)
+barrel.setPos(38, True)
 utime.sleep(2)
 barrel.setPos(90, True)
 
@@ -698,7 +698,7 @@ class NoAmmo(State):
         # Turn off front lights
         for light in frontLights:
             frontLights[light].setBrightness(0, True, 100)
-        barrel.setPos(0)
+        barrel.setPos(38)
 
     def update(self, sm):
         if buttons['mag'].getState():
